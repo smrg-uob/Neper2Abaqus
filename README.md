@@ -6,7 +6,7 @@ The purpose of including the volume and seed information is to calculate the equ
 
 *Please note, this has only currently been created with the most current UMAT in mind.  I will add more functionality as I progress.*
 ## Creating Microstruture with Neper
-Included here is an example shell file which can be used to create a synthetic microstructre in Neper with the following features:
+Included here is an example shell file (neper_example.sh) which can be used to create a synthetic microstructre in Neper with the following features:
 * a unit volume RVE with 300 grains.
 * assigned angles defined by euler angles
 ### Extracting information output from Neper
