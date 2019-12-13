@@ -2,7 +2,9 @@
 ## Main Function
 Create a microstructure using Neper, with the output of the microstructure format as an Abaqus input file and update the Abaqus input file to include materials and sections for each generated grain.
 
-*Please note, this has only currently been created with the most current UMAT in mind.  I will add more functionality as I progress.
+The purpose of including the volume and seed information is to calculate the equivalent spherical diameter of each grain and the centroid location which are used by the current UMAT to determine the location of the integration point with respect to the grain boundary.
+
+*Please note, this has only currently been created with the most current UMAT in mind.  I will add more functionality as I progress.*
 ## Creating Microstruture with Neper
 Included here is an example shell file which can be used to create a synthetic microstructre in Neper with the following features:
 * a unit volume RVE with 300 grains.
