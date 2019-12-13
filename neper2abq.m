@@ -74,37 +74,59 @@ function neper2abq(inputfile)
     fclose(inpFiles);  
   
     %create name
-    materialinput=regexprep(inputfile,'__','_material.inp');
+    materialinput=regexprep(inputfile,'__','_materials.inp');
     %creating an input file for materials
     inpFile = fopen(materialinput,'wt');
 
-   [A]=xlsread('input_file_info.xlsx','Material_parameters');
-   for i=1:size(eulera,1) 
+    [A]=xlsread('input_file_info.xlsx','Material_parameters');
+    %updating the material parameters with the defined local vectors.
+    A(57:59)=vecs1;
+    A(65:67)=vecs2;
+    for i=1:size(eulera,1) 
         fprintf(inpFile, '\n*Material, name=Grain_Mat%d',i);
         fprintf(inpFile, '\n*Depvar\n10000,');
         fprintf(inpFile, '\n*User Material, constants=175\n');
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(1),A(2),A(3),A(4),A(5),A(6),A(7),A(8));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(9),A(10),A(11),A(12),A(13),A(14),A(15),A(16));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(17),A(18),A(19),A(20),A(21),A(22),A(23),A(24));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(25),A(26),A(27),A(28),A(29),A(30),A(31),A(32));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(33),A(34),A(35),A(36),A(37),A(38),A(39),A(40));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(41),A(42),A(43),A(44),A(45),A(46),A(47),A(48));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(49),A(50),A(51),A(52),A(53),A(54),A(55),A(56));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', vecs1(1,1),vecs1(2,1),vecs1(3,1),rotvec1(1,1,i),rotvec1(2,1,i),rotvec1(3,1,i),A(63),A(64));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', vecs2(1,1),vecs2(2,1),vecs2(3,1),rotvec2(1,1,i),rotvec2(2,1,i),rotvec2(3,1,i),A(71),A(72));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(73),A(74),A(75),A(76),A(77),A(78),A(79),A(80));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(81),A(82),A(83),A(84),A(85),A(86),A(87),A(88));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(89),A(90),A(91),A(92),A(93),A(94),A(95),A(96));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(97),A(98),(A(99)),A(100),A(101),A(102),A(103),A(104));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(105),A(106),A(107),A(108),A(109),A(110),A(111),A(112));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(113),A(114),(A(115)),A(116),A(117),A(118),A(119),A(120));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(121),A(122),A(123),A(124),A(125),A(126),A(127),A(128));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(129),A(130),(A(131)),A(132),A(133),A(134),A(135),A(136));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(137),A(138),A(139),A(140),A(141),A(142),A(143),A(144));
-        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n', A(145),A(146),A(147),A(148),A(149),A(150),A(151),A(152));
-        fprintf(inpFile, '%u, %u, %u,  %u, %u, %u, %u, %u\n', A(153),A(154),A(155),A(156),A(157),A(158),A(159),A(160));
-        fprintf(inpFile, '%u, %u,  %u, %u, %u, %u, %u, %u\n', A(161),A(162),A(163),A(164),A(165),A(166),A(167),A(168));
-        fprintf(inpFile, '%u, %u,  %u, %u, %u, %u, %u\n',deg2rad(eulera(i,1)),deg2rad(eulera(i,2)),deg2rad(eulera(i,3)),centroid(i,1),centroid(i,2),centroid(i,3),diameq(i,1));
-   end
+        %updating the material parameters with global vectors
+        A(60:62)=rotvec1(:,:,i);
+        A(68:70)=rotvec2(:,:,i);
+        %adding euler angles in radians to be used in the UMAT to calculate
+        %the angle of the grain with respect to the global system
+        A(169:171)=deg2rad(eulera(i,:));
+        %adding the centroid information in x,y,z coordinates
+        A(172:174)=deg2rad(centroid(i,:));
+        %adding the calculated equivalent spherical diameter for each grain
+        A(175)=diameq(i,1);
+        %printing this information to file
+        fprintf(inpFile, '%u, %u, %u, %u, %u, %u, %u, %u\n',A);
+    
+    end
+
    fclose(inpFile);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This section is a working progress on how to add the created input files
+% directly into the Neper input file.
+   
+%    fid = fopen('316H_centroid2.inp');
+% %    line1=fgetl(fid)
+% %    
+% %    if isempty(regexp(line1,'*Include'))
+% %     t=line1
+% %    end
+%    input=111111;
+%     tline = fgetl(fid);
+%         while ischar(tline)
+%             if regexp(tline,'*Include')
+%                 fprintf(fid,'%s\n',input);
+%             end
+%       
+%         end
+%    fclose(fid);
+%    
+%    
+% %         if fid ~= -1
+% %             fprintf(fid, '*Include, Input = %s',materialinput);
+% %         fclose(fid);
+% %         end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end
