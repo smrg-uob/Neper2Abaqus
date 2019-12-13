@@ -27,7 +27,7 @@ Firstly copy all files included here into a common folder.
 run using from the command line using: neper2abq('name__') where 'name' is the name of the input file.  Please also include the double underscore at the end of the name you choose.
 
 Running this function will create two files:
-* 'name_material.inp'
+* 'name_materials.inp'
 * 'name_sections.inp'
 
 # Creating the final input file for Abaqus
