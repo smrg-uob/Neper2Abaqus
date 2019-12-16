@@ -22,9 +22,11 @@ Once this information is extracted, it all should be added to the corresponding 
 ## Material parameters
 The material parameters required should also be added to the corresponding sheet in the excel file named 'input_file_info'.  The parameters from 1-155 are based on the order in the pdf file found [here](http://www.columbia.edu/~jk2079/Kysar_Research_Laboratory/Single_Crystal_UMAT.html).
 
+## Installation
+Simply copy files in the folder titled *Neper2Abaqus* into the MATLAB file path.
+
 # Running the MATLAB function
-Firstly copy all files included here into a common folder.
-run using from the command line using: neper2abq('name__') where 'name' is the name of the input file.  Please also include the double underscore at the end of the name you choose.
+Run using from the command line using: neper2abq('name__') where 'name' is the name of the input file.  Please also include the double underscore at the end of the name you choose.
 
 Running this function will create two files:
 * 'name_materials.inp'
