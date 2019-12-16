@@ -20,7 +20,7 @@ The volume for each grain is found in the file with extension '.stelset'
 Once this information is extracted, it all should be added to the corresponding sheets in the excel file included here named 'input_file_info'
 
 ## Material parameters
-The material parameters required should also be added to the corresponding sheet in the excel file named 'input_file_info'.  The parameters from 1-155 are based on the order in the pdf file found [here](http://www.columbia.edu/~jk2079/Kysar_Research_Laboratory/Single_Crystal_UMAT.html)
+The material parameters required should also be added to the corresponding sheet in the excel file named 'input_file_info'.  The parameters from 1-155 are based on the order in the pdf file found [here](http://www.columbia.edu/~jk2079/Kysar_Research_Laboratory/Single_Crystal_UMAT.html).
 
 # Running the MATLAB function
 Firstly copy all files included here into a common folder.
